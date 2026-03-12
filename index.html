@@ -22,13 +22,17 @@
         
         /* LOGIN & LAYOUT */
         .login-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.9); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(5px); }
-        .login-box { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 400px; width: 90%; text-align: center; border-top: 5px solid var(--danger); }
+        .login-box { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); max-width: 500px; width: 90%; text-align: center; border-top: 5px solid var(--danger); }
         .login-box h2 { color: var(--danger); margin-bottom: 10px; font-size: 1.8em; }
         .form-group { margin-bottom: 20px; text-align: left; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 600; }
         .form-group input { width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 16px; box-sizing: border-box; }
-        .login-btn { width: 100%; padding: 14px; background: var(--danger); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .login-btn:hover { background: #dc2626; }
+        
+        .login-btn-option { width: 100%; padding: 15px; border: 2px solid transparent; border-radius: 12px; font-size: 15px; font-weight: normal; cursor: pointer; transition: 0.3s; text-align: left; display: flex; align-items: center; gap: 15px; line-height: 1.4; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .option-home { background: #e0f2fe; color: #0284c7; border-color: #bae6fd; }
+        .option-home:hover { background: #bae6fd; transform: translateY(-2px); }
+        .option-class { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
+        .option-class:hover { background: #fecaca; transform: translateY(-2px); }
 
         .app-container { max-width: 1200px; margin: 0 auto; background: var(--card-bg); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; min-height: 85vh; display: flex; flex-direction: column; border: 1px solid #e2e8f0; }
         
@@ -130,8 +134,8 @@
     <div class="login-box">
         <div style="font-size: 50px; margin-bottom: 10px;">🦠</div>
         <h2>TRẠM KIỂM SOÁT DỊCH BỆNH</h2>
-        <p style="color: #64748b; margin-bottom: 25px;">Nhập thông tin nghiên cứu viên để truy cập dữ liệu.</p>
-        <form id="loginForm" onsubmit="handleLogin(event)">
+        <p style="color: #64748b; margin-bottom: 25px;">Nhập thông tin để truy cập hệ thống.</p>
+        <form id="loginForm">
             <div class="form-group">
                 <label>Họ và Tên</label>
                 <input type="text" id="studentName" placeholder="Ví dụ: Nguyễn Văn A" required>
@@ -140,7 +144,16 @@
                 <label>Mã Định Danh (ID)</label>
                 <input type="text" id="studentID" placeholder="Ví dụ: HS001" required>
             </div>
-            <button type="submit" class="login-btn">TRUY CẬP HỆ THỐNG</button>
+            <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 25px;">
+                <button type="button" class="login-btn-option option-home" onclick="handleLogin(1)">
+                    <span style="font-size: 24px;">🏠</span> 
+                    <span>Bạn là <b>nghiên cứu sinh</b>, hãy chọn vào ô này để tiến hành nghiên cứu</span>
+                </button>
+                <button type="button" class="login-btn-option option-class" onclick="handleLogin(2)">
+                    <span style="font-size: 24px;">⚔️</span> 
+                    <span>Bạn đã thành thạo, hãy chọn vào ô này để <b>chiến đấu với dịch bệnh</b></span>
+                </button>
+            </div>
         </form>
     </div>
 </div>
@@ -148,7 +161,7 @@
 <!-- USER BAR -->
 <div id="userInfoBar" class="user-info-bar" style="display: none;">
     <div class="user-details">
-        👨‍🔬 Nghiên cứu viên: <span id="displayName">---</span> | ID: <span id="displayID">---</span>
+        👨‍🔬 Nhiệm vụ: <span id="displayMode">---</span> | Tên: <span id="displayName">---</span> | ID: <span id="displayID">---</span>
     </div>
     <div class="session-time">
         ⏱️ Thời gian phiên làm việc: <span id="sessionTimer">00:00</span>
@@ -159,10 +172,10 @@
 <div id="completionBanner" class="completion-banner">
     <div style="font-size: 40px; margin-bottom: 10px;">💉🎉</div>
     <h2 style="justify-content: center; color: white; border: none; margin: 0;">NHIỆM VỤ HOÀN THÀNH!</h2>
-    <p>Bạn đã nắm vững kiến thức toán học để đẩy lùi dịch bệnh.</p>
+    <p>Bạn đã hoàn thành xuất sắc tiến trình nghiên cứu/chiến đấu của mình.</p>
     <p>Tổng thời gian: <span id="totalTimeCompleted"></span></p>
     <div id="submitStatus" style="margin-top: 10px; color: #ecfdf5; font-style: italic;">Đang gửi kết quả về máy chủ...</div>
-    <button onclick="restartLesson()" style="background: white; color: #059669; margin-top: 15px;">🔄 Nghiên cứu lại</button>
+    <button onclick="restartLesson()" style="background: white; color: #059669; margin-top: 15px;">🔄 Bắt đầu lại từ đầu</button>
 </div>
 
 <!-- MAIN APP -->
@@ -325,7 +338,7 @@
             </div>
         </div>
 
-        <button class="btn-primary" onclick="completeTab1()" style="float: right; margin-top: 20px;">Hoàn thành Phần 1 →</button>
+        <button id="btn-next-t1" class="btn-primary" onclick="completeTab1()" style="float: right; margin-top: 20px;">Hoàn thành Phần 1 →</button>
     </div>
 
     <!-- TAB 2: COMMUNITY SPREAD -->
@@ -365,7 +378,7 @@
                 <canvas id="spreadChart" style="margin-top: 20px; max-height: 200px;"></canvas>
             </div>
         </div>
-        <button class="btn-primary" onclick="completeTab2()" style="float: right; margin-top: 20px;">Hoàn thành Phần 2 →</button>
+        <button id="btn-next-t2" class="btn-primary" onclick="completeTab2()" style="float: right; margin-top: 20px;">Hoàn thành Phần 2 →</button>
     </div>
 
     <!-- TAB 3: PREVENTION (5K) -->
@@ -407,7 +420,7 @@
                 <div id="preventionConclusion" style="margin-top: 15px; font-size: 0.9em; font-style: italic;"></div>
             </div>
         </div>
-        <button class="btn-primary" onclick="completeTab3()" style="float: right; margin-top: 20px;">Hoàn thành Phần 3 →</button>
+        <button id="btn-next-t3" class="btn-primary" onclick="completeTab3()" style="float: right; margin-top: 20px;">Hoàn thành Phần 3 →</button>
     </div>
 
     <!-- TAB 4: VACCINATION -->
@@ -439,7 +452,7 @@
                 <div id="vaccineResult" style="margin-top: 15px; font-weight: bold; color: var(--success); padding: 10px; border-radius: 8px;"></div>
             </div>
         </div>
-        <button class="btn-primary" onclick="completeTab4()" style="float: right; margin-top: 20px;">Hoàn thành Phần 4 →</button>
+        <button id="btn-next-t4" class="btn-primary" onclick="completeTab4()" style="float: right; margin-top: 20px;">Hoàn thành Phần 4 →</button>
     </div>
 
     <!-- TAB 5: NIPAH -->
@@ -507,7 +520,7 @@
     const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzo3p0ROadBOtAZtXCTKQAnVhKKFNMAbScPnfzW1gu-P7gdnsBqGMzREqiaqKyrg4kE0A/exec'; 
     
     let state = {
-        name: '', id: '', startTime: null, 
+        name: '', id: '', startTime: null, mode: 1,
         currentTab: 'tab1', tabsDone: {t1:false, t2:false, t3:false, t4:false, t5:false},
         t1_gen: 0, t1_data: []
     };
@@ -553,22 +566,62 @@
         });
     }
 
-    function handleLogin(e) {
-        e.preventDefault();
+    function handleLogin(mode) {
         state.name = document.getElementById('studentName').value;
         state.id = document.getElementById('studentID').value;
-        if(!state.name || !state.id) return alert("Vui lòng nhập đủ thông tin!");
+        if(!state.name || !state.id) return alert("Vui lòng nhập đủ thông tin (Tên và ID) trước khi chọn!");
         
+        state.mode = mode; // Lưu lại chế độ 1 (Nhà) hoặc 2 (Lớp)
+
         document.getElementById('loginOverlay').style.display = 'none';
         document.getElementById('userInfoBar').style.display = 'flex';
         document.getElementById('mainApp').style.display = 'flex';
+        
+        document.getElementById('displayMode').innerText = mode === 1 ? "Nghiên cứu sinh" : "Chiến đấu dịch bệnh";
         document.getElementById('displayName').innerText = state.name;
         document.getElementById('displayID').innerText = state.id;
         state.startTime = new Date();
         setInterval(updateTimer, 1000);
         
+        // Cấu hình UI theo chế độ
+        if(mode === 1) { // Mode 1: Tab 1, 2, 4 (Sẽ đổi tên thành Phần 1, 2, 3)
+            document.querySelector('[data-tab="tab1"]').style.display = 'block';
+            document.querySelector('[data-tab="tab1"]').innerText = 'PHẦN 1: VIRUS NHÂN LÊN';
+            
+            document.querySelector('[data-tab="tab2"]').style.display = 'block';
+            document.querySelector('[data-tab="tab2"]').innerText = 'PHẦN 2: LÂY LAN CỘNG ĐỒNG';
+            
+            document.querySelector('[data-tab="tab3"]').style.display = 'none';
+            
+            document.querySelector('[data-tab="tab4"]').style.display = 'block';
+            document.querySelector('[data-tab="tab4"]').innerText = 'PHẦN 3: VẮC-XIN';
+            
+            document.querySelector('[data-tab="tab5"]').style.display = 'none';
+            
+            switchTab('tab1');
+            document.getElementById('btn-next-t1').innerText = "Chuyển sang Phần 2 →";
+            document.getElementById('btn-next-t2').innerText = "Chuyển sang Phần 3 →";
+            document.getElementById('btn-next-t4').innerText = "🏆 HOÀN THÀNH CHƯƠNG TRÌNH";
+            document.getElementById('btn-next-t4').classList.replace('btn-primary', 'btn-success');
+        } else if(mode === 2) { // Mode 2: Tab 3, 5 (Sẽ đổi tên thành Phần 1, 2)
+            document.querySelector('[data-tab="tab1"]').style.display = 'none';
+            document.querySelector('[data-tab="tab2"]').style.display = 'none';
+            
+            document.querySelector('[data-tab="tab3"]').style.display = 'block';
+            document.querySelector('[data-tab="tab3"]').innerText = 'PHẦN 1: PHÒNG CHỐNG (5K)';
+            
+            document.querySelector('[data-tab="tab4"]').style.display = 'none';
+            
+            document.querySelector('[data-tab="tab5"]').style.display = 'block';
+            document.querySelector('[data-tab="tab5"]').innerText = 'PHẦN 2: VIRUS NIPAH';
+            
+            switchTab('tab3');
+            document.getElementById('btn-next-t3').innerText = "Chuyển sang Phần 2 →";
+        }
+
         // LOGGING: Đăng nhập
-        logAction('Đăng nhập', `Bắt đầu lúc ${state.startTime.toLocaleTimeString()}`);
+        let modeName = mode === 1 ? "Nghiên cứu sinh" : "Chiến đấu dịch bệnh";
+        logAction('Đăng nhập', `Bắt đầu lúc ${state.startTime.toLocaleTimeString()} - Chế độ: ${modeName}`);
     }
 
     function updateTimer() {
@@ -638,9 +691,6 @@
             warn.style.position='absolute'; warn.style.bottom='20px'; warn.style.color='white'; warn.style.fontWeight='bold';
             cell.appendChild(warn);
         }
-
-        // Đã xóa (hoặc ẩn) dòng này để không hiển thị công thức quá sớm
-        // if(state.t1_gen >= 4) document.getElementById('t1_conclusion').style.display = 'block';
     }
 
     function resetTab1() {
@@ -765,7 +815,8 @@
     function completeTab2() {
         state.tabsDone.t2 = true;
         document.querySelector('[data-tab="tab2"]').classList.add('completed');
-        switchTab('tab3');
+        if (state.mode === 1) switchTab('tab4'); // Mode 1 nhảy sang tab 4
+        else switchTab('tab3');
     }
 
     // ==========================================
@@ -846,7 +897,8 @@
     function completeTab3() {
         state.tabsDone.t3 = true;
         document.querySelector('[data-tab="tab3"]').classList.add('completed');
-        switchTab('tab4');
+        if (state.mode === 2) switchTab('tab5'); // Mode 2 nhảy sang tab 5
+        else switchTab('tab4');
     }
 
     // ==========================================
@@ -911,7 +963,8 @@
     function completeTab4() {
         state.tabsDone.t4 = true;
         document.querySelector('[data-tab="tab4"]').classList.add('completed');
-        switchTab('tab5');
+        if (state.mode === 1) finishAll(); // Mode 1 kết thúc ở đây
+        else switchTab('tab5');
     }
 
     // ==========================================
@@ -938,9 +991,20 @@
     }
 
     function finishAll() {
-        if(!state.tabsDone.t1 || !state.tabsDone.t2 || !state.tabsDone.t3 || !state.tabsDone.t5) {
-            alert("Vui lòng hoàn thành các phần trước!"); return;
+        if (state.mode === 1) {
+            if(!state.tabsDone.t1 || !state.tabsDone.t2 || !state.tabsDone.t4) {
+                alert("Vui lòng hoàn thành các phần 1, 2, 4 trước!"); return;
+            }
+        } else if (state.mode === 2) {
+            if(!state.tabsDone.t3 || !state.tabsDone.t5) {
+                alert("Vui lòng hoàn thành các phần 3, 5 trước!"); return;
+            }
+        } else {
+            if(!state.tabsDone.t1 || !state.tabsDone.t2 || !state.tabsDone.t3 || !state.tabsDone.t5) {
+                alert("Vui lòng hoàn thành các phần trước!"); return;
+            }
         }
+
         document.getElementById('mainApp').style.display = 'none';
         document.getElementById('completionBanner').style.display = 'block';
         
