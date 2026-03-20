@@ -202,11 +202,11 @@
                 <input type="number" id="t1_u1" value="1" min="1" max="5">
             </div>
             <div class="input-wrap">
-                <label>Replication factor (<span class="math-symbol">q</span>)</label>
+                <label>Replication factor</label>
                 <select id="t1_q">
-                    <option value="2">Double (q=2)</option>
-                    <option value="3">Triple (q=3)</option>
-                    <option value="4">Quadruple (q=4)</option>
+                    <option value="2">Double</option>
+                    <option value="3">Triple</option>
+                    <option value="4">Quadruple</option>
                 </select>
             </div>
             <button class="btn-danger" onclick="simulateReplication()">▶ START CYCLE</button>
@@ -240,11 +240,11 @@
                 <h3 style="color: var(--danger); margin-top: 0;">📚 Case Study: COVID-19</h3>
                 <p style="font-size: 0.95em; line-height: 1.6;">
                     Severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) is a strain of coronavirus that causes coronavirus disease 2019 (COVID-19). It first emerged in December 2019 in Wuhan, China, and quickly spread to become a global pandemic. 
-                    When SARS-CoV-2 enters a human cell, it uses the cell's machinery to replicate. Assume in a controlled experiment, <strong>one initial virus creates 2 new viruses after each replication cycle</strong> (meaning the total amount doubles - <em>q=2</em>).
+                    When SARS-CoV-2 enters a human cell, it uses the cell's machinery to replicate. Assume in a controlled experiment starting with <strong>1 initial virus</strong>, <strong>each virus creates 2 new viruses and is then destroyed after each replication cycle</strong>.
                 </p>
 
                 <div class="exercise-item">
-                    <strong>Question 1: Set "Initial viruses" to 1 and "Replication factor" to Double. Press "Start Cycle" 5 times. Based on the Observation Log, fill in the quantity of viruses (<span class="math-symbol">u</span>) at the corresponding cycles (<span class="math-symbol">n</span>):</strong>
+                    <strong>Question 1: Based on the Case Study description, configure and run the simulation. Then, fill in the quantity of viruses (<span class="math-symbol">u</span>) at the corresponding cycles (<span class="math-symbol">n</span>):</strong>
                     <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-top: 10px; align-items: center;">
                         <span><span class="math-symbol">u<sub>1</sub></span> = <input type="number" class="fill-blank" id="q1_1" style="width: 50px;"></span>
                         <span><span class="math-symbol">u<sub>2</sub></span> = <input type="number" class="fill-blank" id="q1_2" style="width: 50px;"></span>
@@ -272,16 +272,40 @@
                 </div>
 
                 <div class="exercise-item">
-                    <strong>Question 3: Mathematical modeling</strong>
-                    <p style="margin-top: 5px; margin-bottom: 5px;">A sequence of numbers where the ratio of any two successive members is constant is called a <strong>Geometric Progression</strong>.</p>
-                    <p style="margin-top: 5px; margin-bottom: 10px;">The "replication factor" you calculated above is known in Mathematics as the <strong>Common Ratio</strong>, denoted by <span class="math-symbol">q</span>.</p>
-                    So in the simulation above, the common ratio <span class="math-symbol">q</span> = <input type="number" class="fill-blank" id="q3_1" style="width: 60px;">.
+                    <strong>Question 3: Based on your observations in Questions 1 and 2, fill in the blanks to complete the formal mathematical definition:</strong>
+                    <div style="line-height: 2; padding: 15px; background: #fff; border: 1px dashed var(--primary); border-radius: 8px;">
+                        A <span style="font-weight: bold; color: var(--primary-dark);">Geometric Sequence (Geometric Progression)</span> is a sequence (finite or infinite) in which, starting from the second term, each term is the 
+                        <select id="q3_1" class="fill-blank" style="width: auto; padding: 2px;">
+                            <option value="">-- select --</option>
+                            <option value="sum">sum</option>
+                            <option value="product">product</option>
+                        </select>
+                        of the immediately preceding term and a 
+                        <select id="q3_2" class="fill-blank" style="width: auto; padding: 2px;">
+                            <option value="">-- select --</option>
+                            <option value="constant">constant</option>
+                            <option value="variable">variable</option>
+                        </select>
+                        number <span class="math-symbol">q</span>.<br>
+                        The number <span class="math-symbol">q</span> is called the <span style="font-weight: bold; color: var(--primary-dark);">common ratio</span> of the geometric sequence.
+                    </div>
+                    <div style="margin-top: 15px;">
+                        In our virus simulation, the "replication factor" plays the role of this common ratio. Therefore, in the simulation you just ran, the common ratio <span class="math-symbol">q</span> = <input type="number" class="fill-blank" id="q3_3" style="width: 60px;">.
+                    </div>
                 </div>
 
                 <div class="exercise-item">
-                    <strong>Question 4: From the definition above, to calculate the number of viruses at the <span class="math-symbol">n</span>-th cycle (<span class="math-symbol">u<sub>n</sub></span>), we simply take the number of viruses from the previous cycle (<span class="math-symbol">u<sub>n-1</sub></span>) and multiply it by the common ratio <span class="math-symbol">q</span>. Fill in the blank to complete the formula:</strong>
-                    <div style="margin-top: 10px; font-size: 1.1em;">
-                        <span class="math-symbol">u<sub>n</sub> = u<sub>n-1</sub> &times;</span> <input type="text" class="fill-blank" id="q4_1" style="width: 60px;">
+                    <strong>Question 4: Translate the definition of a geometric sequence into a mathematical formula. Express the relationship between the <span class="math-symbol">n</span>-th term (<span class="math-symbol">u<sub>n</sub></span>), its preceding term (<span class="math-symbol">u<sub>n-1</sub></span>), and the common ratio <span class="math-symbol">q</span>:</strong>
+                    <div style="margin-top: 10px; font-size: 1.1em; display: flex; align-items: center; gap: 10px;">
+                        <span class="math-symbol">u<sub>n</sub> = u<sub>n-1</sub></span> 
+                        <select id="q4_op" class="fill-blank" style="width: 50px; padding: 2px; font-size: 1em;">
+                            <option value="">?</option>
+                            <option value="+">+</option>
+                            <option value="-">-</option>
+                            <option value="*">&times;</option>
+                            <option value="/">/</option>
+                        </select>
+                        <input type="text" class="fill-blank" id="q4_1" style="width: 60px; font-style: italic;" placeholder="?">
                     </div>
                 </div>
 
@@ -300,7 +324,7 @@
                             <option value="Smaller">Smaller than</option>
                             <option value="Equal">Equal to</option>
                         </select>
-                        the index of <span class="math-symbol">u</span> by exactly 1 unit.
+                        the index of <span class="math-symbol">u</span> by exactly <input type="number" class="fill-blank" id="q5_diff" style="width: 40px; padding: 0;"> unit(s).
                     </div>
                     <div style="margin-top: 10px;">
                         Predict: <span class="math-symbol">u<sub>10</sub> = u<sub>1</sub> &times; q</span><sup><input type="number" class="fill-blank" id="q5_2" style="width: 40px; padding: 0;"></sup>
@@ -308,7 +332,7 @@
                 </div>
 
                 <div class="exercise-item">
-                    <strong>Question 6: Generalization: From the pattern above, the <span class="math-symbol">n</span>-th term (<span class="math-symbol">u<sub>n</sub></span>) of a geometric progression can be calculated using the first term (<span class="math-symbol">u<sub>1</sub></span>) and the common ratio <span class="math-symbol">q</span> with which formula?</strong>
+                    <strong>Question 6: From the pattern above, the <span class="math-symbol">n</span>-th term (<span class="math-symbol">u<sub>n</sub></span>) of a geometric sequence can be calculated using the first term (<span class="math-symbol">u<sub>1</sub></span>) and the common ratio <span class="math-symbol">q</span> with which formula?</strong>
                     <div style="margin-top: 10px;">
                         <label class="radio-option"><input type="radio" name="mcq_formula" value="A"> A. <span class="math-symbol">u<sub>n</sub> = u<sub>1</sub> &times; q<sup>n</sup></span></label>
                         <label class="radio-option"><input type="radio" name="mcq_formula" value="B"> B. <span class="math-symbol">u<sub>n</sub> = u<sub>1</sub> &times; q<sup>n-1</sup></span></label>
@@ -323,7 +347,7 @@
                 <div class="formula-box" id="t1_conclusion" style="display:none; margin-top: 25px; border: 2px solid var(--primary); background: #f0f9ff; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.2);">
                     <div style="font-size: 1.3em; margin-bottom: 10px; color: var(--primary-dark);">🌟 <strong>AWESOME! YOU FOUND THE PATTERN</strong></div>
                     <p style="font-size: 1em; line-height: 1.6; color: #334155; margin-bottom: 20px;">
-                        Through simulation and calculations, you have discovered a special sequence in mathematics called a <strong>Geometric Progression</strong>. 
+                        Through simulation and calculations, you have discovered a special sequence in mathematics called a <strong>Geometric Sequence</strong>. 
                         Starting from the second term, each term is equal to the immediately preceding term multiplied by a constant number <span class="math-symbol">q</span> (called the <strong>common ratio</strong>).
                     </p>
                     <div style="background: white; padding: 20px; border-radius: 12px; border: 2px dashed var(--danger); display: inline-block;">
@@ -428,7 +452,7 @@
         <h2>💉 Vaccine Effectiveness & Immunity</h2>
         <div class="grid-2">
             <div class="info-card">
-                <h3>Viral decay model (Decreasing geometric progression)</h3>
+                <h3>Viral decay model (Decreasing geometric sequence)</h3>
                 <p>After vaccination, the immune system is "trained". When the virus enters, antibodies destroy them quickly.</p>
                 <p>Assume every hour, the viral load is halved (<span class="math-symbol">q = 0.5</span>).</p>
                 
@@ -474,7 +498,7 @@
             <!-- Inline Result Display -->
             <div id="nipahResultSuccess" class="inline-alert alert-success">
                 ✅ CORRECT! <br>
-                The total number of infections is <b>1,023</b> people (using the geometric progression sum formula). <br>
+                The total number of infections is <b>1,023</b> people (using the geometric sequence sum formula). <br>
                 This number is larger than the 500 population of the village -> The entire village is infected.
             </div>
             <div id="nipahResultError" class="inline-alert alert-error">
@@ -554,13 +578,13 @@
             body: params
         }).then(() => {
             console.log(`Sent data [${action}] to Google Sheet.`);
-            if(action === 'Submit') {
-                document.getElementById('submitStatus').innerText = "✅ Data successfully sent!";
+            if(action === 'Submit Tab 1 Exercise' || action === 'Submit') {
+                document.getElementById('submitStatus') && (document.getElementById('submitStatus').innerText = "✅ Data successfully sent!");
             }
         }).catch(err => {
             console.error("Data submission error:", err);
-            if(action === 'Submit') {
-                document.getElementById('submitStatus').innerText = "❌ Connection error! Please check your network.";
+            if(action === 'Submit Tab 1 Exercise' || action === 'Submit') {
+                document.getElementById('submitStatus') && (document.getElementById('submitStatus').innerText = "❌ Connection error! Please check your network.");
             }
         });
     }
@@ -698,35 +722,45 @@
         document.querySelector('#replicationTable tbody').innerHTML = '';
         document.getElementById('t1_conclusion').style.display = 'none';
         
-        document.querySelectorAll('#tab1 input.fill-blank').forEach(i => i.value = '');
+        document.querySelectorAll('#tab1 input.fill-blank, #tab1 select.fill-blank').forEach(i => i.value = '');
         document.querySelectorAll('#tab1 input[type="radio"]').forEach(i => i.checked = false);
         document.getElementById('ex_result_tab1').style.display = 'none';
     }
     
     function checkExerciseTab1() {
-        const q1 = [
-            document.getElementById('q1_1').value,
-            document.getElementById('q1_2').value,
-            document.getElementById('q1_3').value,
-            document.getElementById('q1_4').value,
-            document.getElementById('q1_5').value
-        ].join(', ');
+        const q1_1 = document.getElementById('q1_1').value || "?";
+        const q1_2 = document.getElementById('q1_2').value || "?";
+        const q1_3 = document.getElementById('q1_3').value || "?";
+        const q1_4 = document.getElementById('q1_4').value || "?";
+        const q1_5 = document.getElementById('q1_5').value || "?";
         
-        const q2 = [
-            document.getElementById('q2_1').value,
-            document.getElementById('q2_2').value,
-            document.getElementById('q2_3').value,
-            document.getElementById('q2_4').value
-        ].join(', ');
+        const q2_1 = document.getElementById('q2_1').value || "?";
+        const q2_2 = document.getElementById('q2_2').value || "?";
+        const q2_3 = document.getElementById('q2_3').value || "?";
+        const q2_4 = document.getElementById('q2_4').value || "?";
         
-        const q3 = document.getElementById('q3_1').value;
-        const q4 = document.getElementById('q4_1').value;
-        const q5 = document.getElementById('q5_1').value + ' | exp: ' + document.getElementById('q5_2').value;
+        const q3_1 = document.getElementById('q3_1').value || "?";
+        const q3_2 = document.getElementById('q3_2').value || "?";
+        const q3_3 = document.getElementById('q3_3').value || "?";
+
+        const q4_op = document.getElementById('q4_op').value || "?";
+        const q4_1 = document.getElementById('q4_1').value || "?";
+
+        const q5_1 = document.getElementById('q5_1').value || "?";
+        const q5_diff = document.getElementById('q5_diff').value || "?";
+        const q5_2 = document.getElementById('q5_2').value || "?";
         
         const mcq = document.querySelector('input[name="mcq_formula"]:checked');
         const q6 = mcq ? mcq.value : "Not selected";
 
-        const details = `Q1:[${q1}] | Q2:[${q2}] | Q3:${q3} | Q4:${q4} | Q5:${q5} | Q6:${q6}`;
+        const details = 
+            "--- STEP-BY-STEP SOLUTION ---\n" +
+            "Q1 (Quantity): u1=" + q1_1 + ", u2=" + q1_2 + ", u3=" + q1_3 + ", u4=" + q1_4 + ", u5=" + q1_5 + "\n" +
+            "Q2 (Ratios): u2/u1=" + q2_1 + ", u3/u2=" + q2_2 + ", u4/u3=" + q2_3 + " | Conclusion: " + q2_4 + "\n" +
+            "Q3 (Definition & q): " + q3_1 + " & " + q3_2 + " | q=" + q3_3 + "\n" +
+            "Q4 (Recurrence formula): un = un-1 " + q4_op + " " + q4_1 + "\n" +
+            "Q5 (Exponent patterns): " + q5_1 + " by " + q5_diff + " | exp: " + q5_2 + "\n" +
+            "Q6 (General formula choice): " + q6;
 
         logAction('Submit Tab 1 Exercise', details);
 
@@ -1029,7 +1063,7 @@
                         "🤖 Dr. GeoBot: **R0 (Basic Reproduction Number)** is the average number of people one infected person will pass the virus to. If R0 > 1, the disease will spread exponentially!",
                         "🤖 Dr. GeoBot: **Herd Immunity** is achieved when enough people have antibodies (either from vaccines or previous infections), leaving the virus with no one to infect (breaking the sequence).",
                         "🤖 Dr. GeoBot: Math is incredibly important! The formula **S_n** helps epidemiologists predict the number of hospital beds required for the future.",
-                        "🤖 Dr. GeoBot: Did you know? **Vaccines** help convert a rapidly increasing geometric progression (outbreak) into a decreasing geometric progression to zero (eradication)! 📉"
+                        "🤖 Dr. GeoBot: Did you know? **Vaccines** help convert a rapidly increasing geometric sequence (outbreak) into a decreasing geometric sequence to zero (eradication)! 📉"
                     ];
                     if(lowerPrompt.includes("r0") || lowerPrompt.includes("rate")) reply = chatResponses[0];
                     else if(lowerPrompt.includes("immunity") || lowerPrompt.includes("herd")) reply = chatResponses[1];
